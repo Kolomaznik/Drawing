@@ -6,3 +6,12 @@
     -fx-background-color: transparent;
 }
 
+.tool-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.separator .line {
+    -fx-border-color: transparent transparent transparent transparent;
+}
+
