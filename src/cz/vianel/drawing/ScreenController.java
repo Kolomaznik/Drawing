@@ -51,4 +51,7 @@ public class ScreenController  implements Initializable {
             Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void cropImage(ActionEvent actionEvent) {
+    }
 }

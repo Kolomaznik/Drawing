@@ -11,6 +11,10 @@
     -fx-padding: 0;
 }
 
+.separator {
+    -fx-pref-width: 36px;
+}
+
 .separator .line {
     -fx-border-color: transparent transparent transparent transparent;
 }
