@@ -16,7 +16,7 @@
                 </ImageView>
             </graphic>
         </Button>
-        <ToggleButton fx:id="editImage" mnemonicParsing="false" onAction="#editImage">
+        <Button fx:id="editImage" mnemonicParsing="false" onAction="#editImage">
             <graphic>
                 <ImageView pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -24,6 +24,6 @@
                     </image>
                 </ImageView>
             </graphic>
-        </ToggleButton>
+        </Button>
     </items>
 </ToolBar>

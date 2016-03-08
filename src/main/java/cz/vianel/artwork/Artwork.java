@@ -32,6 +32,20 @@ public class Artwork {
         return imageProperty;
     }
 
+    private BooleanProperty editImage = new SimpleBooleanProperty(false);
+
+    public boolean getEditImage() {
+        return editImage.get();
+    }
+
+    public BooleanProperty editImageProperty() {
+        return editImage;
+    }
+
+    public void setEditImage(boolean editImage) {
+        this.editImage.set(editImage);
+    }
+
     public void openImage(File file) {
         LOG.trace("openImage(File {})", file.getAbsoluteFile());
         try {

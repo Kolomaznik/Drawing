@@ -1,16 +1,23 @@
 package cz.vianel.artwork.fx;
 
 import cz.vianel.artwork.Artwork;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Created by Honza on 06.03.2016.
@@ -28,16 +35,26 @@ public class ToolBarController implements ArtworkDependent {
     }
 
 
+    private static final Image editImageShow = new Image(ToolBarController.class.getResourceAsStream("icon/appbar.edit.png"));
+    private static final Image editImageHide = new Image(ToolBarController.class.getResourceAsStream("icon/appbar.edit.box.png"));
 
     private Artwork artwork;
 
-    @FXML ToggleButton editImage;
     @FXML ToolBar toolBar;
+
+    @FXML Button editImage;
 
     @Override
     public void setArtwork(Artwork artwork) {
         LOG.trace("setArtwork(artwork: {})", artwork);
         this.artwork = artwork;
+        this.artwork.editImageProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                ((ImageView)editImage.getGraphic()).setImage(editImageHide);
+            } else {
+                ((ImageView)editImage.getGraphic()).setImage(editImageShow);
+            }
+        });
         this.editImage.disableProperty().bind(artwork.imageProperty().isNull());
 
     }
@@ -55,7 +72,9 @@ public class ToolBarController implements ArtworkDependent {
     }
 
     public void editImage(ActionEvent actionEvent) {
+        artwork.setEditImage(!artwork.getEditImage());
     }
+
 
 
 }
