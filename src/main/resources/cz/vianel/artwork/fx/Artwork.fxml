@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane"
-            fx:controller="cz.vianel.artwork.fx.ArtworkController"
-            stylesheets="@stylesheets/main.css"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <center>
-        <fx:include source="DrawingPanel.fxml" />
-    </center>
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+<BorderPane fx:id="borderPane" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vianel.artwork.fx.ArtworkController">
     <top>
-        <fx:include source="ToolBar.fxml" />
+        <fx:include fx:id="toolBar" source="ToolBar.fxml" />
     </top>
+    <center>
+      <Group fx:id="imageGroup">
+         <children>
+             <ImageView fx:id="imageView" preserveRatio="true" smooth="true" />
+         </children>
+      </Group>
+    </center>
 </BorderPane>

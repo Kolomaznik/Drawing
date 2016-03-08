@@ -18,8 +18,9 @@ public class Main extends Application {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        LOG.info("Start application ARTWORK ... init");
+        LOG.info("Start application ARTWORK.");
         launch(args);
+        LOG.info("Application ARTWORK is finish.");
     }
 
     @Override
@@ -33,13 +34,13 @@ public class Main extends Application {
 
         LOG.debug("Connect data model to user interface.");
         ArtworkController artworkController = loader.<ArtworkController> getController();
-        artworkController.initData(artwork);
+        artworkController.setArtwork(artwork);
 
-        LOG.debug("pPolishing user interface.");
+        LOG.debug("Polishing user interface.");
         primaryStage.setTitle("Artwork");
         primaryStage.setScene(new Scene(root, 800, 600));
 
-        LOG.info("Start application ARTWORK ... ready.");
+        LOG.info("Show user interface");
         primaryStage.show();
 
     }

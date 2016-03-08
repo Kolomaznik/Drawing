@@ -2,14 +2,41 @@ package cz.vianel.artwork.fx;
 
 import cz.vianel.artwork.Artwork;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.logging.Logger;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ArtworkController /*implements Initializable*/ {
+public class ArtworkController implements Initializable, ArtworkDependent {
 
-    @FXML private DrawingPanelController drawingPanelController;
+    private static final Logger LOG = LoggerFactory.getLogger(ArtworkController.class);
 
-    public void initData(Artwork artwork) {
+    private Artwork artwork;
+
+    @FXML ToolBarController toolBarController;
+
+    @FXML BorderPane borderPane;
+    @FXML Group imageGroup;
+    @FXML ImageView imageView;
+
+    @Override
+    public void setArtwork(Artwork artwork) {
+        LOG.trace("setArtwork(artwork: {})", artwork);
+        this.artwork = artwork;
+        this.toolBarController.setArtwork(artwork);
+        this.imageView.imageProperty().bind(artwork.imageProperty());
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.imageView.fitWidthProperty().bind(borderPane.widthProperty());
+        this.imageView.fitHeightProperty().bind(borderPane.heightProperty().subtract(toolBarController.toolBar.heightProperty()));
     }
 
     //private Artwork artwork;
@@ -29,16 +56,7 @@ public class ArtworkController /*implements Initializable*/ {
 //
 //    @FXML
 //    private BorderPane borderPane;
-//
-//    @Override
-//    public void initialize(URL location, ResourceBundle resources) {
-//        artwork = new Artwork();
-//        imageView.fitWidthProperty().bind(borderPane.widthProperty());
-//        imageView.fitHeightProperty().bind(borderPane.heightProperty());
-//        imageView.imageProperty().bind(artwork.imageProperty());
-//        cropImage.disableProperty().bind(artwork.imageReadyPropertyProperty());
-//        cropImageRatio.disableProperty().bind(artwork.imageReadyPropertyProperty());
-//    }
+
 //
 //    public void openImage(ActionEvent actionEvent) {
 //        //Show open file dialog

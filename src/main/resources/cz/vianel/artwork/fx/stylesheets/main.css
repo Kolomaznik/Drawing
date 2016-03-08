@@ -6,13 +6,17 @@
     -fx-background-color: transparent;
 }
 
+.toggleButton {
+    -fx-background-color: transparent;
+}
+
 .tool-bar {
     -fx-background-color: transparent;
     -fx-padding: 0;
 }
 
 .separator {
-    -fx-pref-width: 36px;
+    -fx-pref-width: 19px;
 }
 
 .separator .line {

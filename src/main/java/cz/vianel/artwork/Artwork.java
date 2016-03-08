@@ -4,28 +4,21 @@ import javafx.beans.property.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * Created by xkoloma1 on 29.02.2016.
  */
 public class Artwork {
 
-    private static final Logger LOGGER = Logger.getLogger(Artwork.class.getSimpleName());
-
-    public static final FileChooser IMAGE_FILE_CHOOSER = new FileChooser();
-    static {
-        //Set extension filter
-        FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-        IMAGE_FILE_CHOOSER.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-    }
+    private static final Logger LOG = LoggerFactory.getLogger(Artwork.class);
 
     private BufferedImage bufferedImage;
 
@@ -39,28 +32,16 @@ public class Artwork {
         return imageProperty;
     }
 
-    private BooleanProperty imageReadyProperty = new SimpleBooleanProperty(true);
-
-
-    public boolean isImageReady() {
-        return imageReadyProperty.get();
-    }
-
-    public ReadOnlyBooleanProperty imageReadyPropertyProperty() {
-        return imageReadyProperty;
-    }
-
     public void openImage(File file) {
+        LOG.trace("openImage(File {})", file.getAbsoluteFile());
         try {
             bufferedImage = ImageIO.read(file);
             imageProperty.set(SwingFXUtils.toFXImage(bufferedImage, null));
-            imageReadyProperty.set(false);
-            LOGGER.log(Level.FINE, String.format("Image %s successfully opened", file));
+            LOG.info("Image {} successfully opened", file);
         } catch (IOException ex) {
             bufferedImage = null;
             imageProperty.set(null);
-            imageReadyProperty.set(true);
-            LOGGER.log(Level.SEVERE, "File can't be open.", ex);
+            LOG.warn("File can't be open.", ex);
         }
     }
 }
