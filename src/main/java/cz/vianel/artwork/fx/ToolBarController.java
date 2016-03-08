@@ -1,11 +1,11 @@
-package cz.vianel.drawing.fx;
+package cz.vianel.artwork.fx;
 
 import javafx.event.ActionEvent;
 
 /**
  * Created by Honza on 06.03.2016.
  */
-public class ToolBar {
+public class ToolBarController {
 
     public void openImage(ActionEvent actionEvent) {
 
@@ -16,5 +16,8 @@ public class ToolBar {
 
     public void cropImageRation(ActionEvent actionEvent) {
 
+    }
+
+    public void editImage(ActionEvent actionEvent) {
     }
 }

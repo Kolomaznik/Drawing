@@ -2,7 +2,7 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane fx:id="borderPane"
-            fx:controller="cz.vianel.drawing.fx.AppMainControler"
+            fx:controller="cz.vianel.artwork.fx.ArtworkController"
             stylesheets="@stylesheets/main.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <center>

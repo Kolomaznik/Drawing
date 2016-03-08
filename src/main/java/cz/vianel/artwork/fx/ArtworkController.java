@@ -1,16 +1,18 @@
-package cz.vianel.drawing.fx;
+package cz.vianel.artwork.fx;
 
+import cz.vianel.artwork.Artwork;
 import javafx.fxml.FXML;
 
 import java.util.logging.Logger;
 
-public class AppMainControler /*implements Initializable*/ {
-
-    private static final Logger LOGGER = Logger.getLogger(AppMainControler.class.getSimpleName());
+public class ArtworkController /*implements Initializable*/ {
 
     @FXML private DrawingPanelController drawingPanelController;
 
-    //private Drawing drawing;
+    public void initData(Artwork artwork) {
+    }
+
+    //private Artwork artwork;
 //
 //    @FXML
 //    public Button openImage;
@@ -30,19 +32,19 @@ public class AppMainControler /*implements Initializable*/ {
 //
 //    @Override
 //    public void initialize(URL location, ResourceBundle resources) {
-//        drawing = new Drawing();
+//        artwork = new Artwork();
 //        imageView.fitWidthProperty().bind(borderPane.widthProperty());
 //        imageView.fitHeightProperty().bind(borderPane.heightProperty());
-//        imageView.imageProperty().bind(drawing.imageProperty());
-//        cropImage.disableProperty().bind(drawing.imageReadyPropertyProperty());
-//        cropImageRatio.disableProperty().bind(drawing.imageReadyPropertyProperty());
+//        imageView.imageProperty().bind(artwork.imageProperty());
+//        cropImage.disableProperty().bind(artwork.imageReadyPropertyProperty());
+//        cropImageRatio.disableProperty().bind(artwork.imageReadyPropertyProperty());
 //    }
 //
 //    public void openImage(ActionEvent actionEvent) {
 //        //Show open file dialog
-//        File file = Drawing.IMAGE_FILE_CHOOSER.showOpenDialog(null);
+//        File file = Artwork.IMAGE_FILE_CHOOSER.showOpenDialog(null);
 //        if (file != null && file.exists()) {
-//            drawing.openImage(file);
+//            artwork.openImage(file);
 //            LOGGER.log(Level.INFO, String.format("Image %s open", file.getAbsoluteFile()));
 //        } else {
 //            LOGGER.log(Level.INFO, "Open new imageProperty canceled.");

@@ -1,4 +1,4 @@
-package cz.vianel.drawing;
+package cz.vianel.artwork;
 
 import javafx.beans.property.*;
 import javafx.embed.swing.SwingFXUtils;
@@ -15,9 +15,9 @@ import java.util.logging.Logger;
 /**
  * Created by xkoloma1 on 29.02.2016.
  */
-public class Drawing {
+public class Artwork {
 
-    private static final Logger LOGGER = Logger.getLogger(Drawing.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(Artwork.class.getSimpleName());
 
     public static final FileChooser IMAGE_FILE_CHOOSER = new FileChooser();
     static {

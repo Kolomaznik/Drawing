@@ -1,4 +1,4 @@
-package cz.vianel.drawing.fx;
+package cz.vianel.artwork.fx;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
