@@ -34,7 +34,7 @@ public class Artwork {
 
     private BooleanProperty editImage = new SimpleBooleanProperty(false);
 
-    public boolean getEditImage() {
+    public boolean isEditImage() {
         return editImage.get();
     }
 

@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 
 <ToolBar fx:id="toolBar" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/8"
-         xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vianel.artwork.fx.ToolBarController">
+         xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vianel.artwork.fx.MainToolBarController">
     <items>
         <Button fx:id="openImage" mnemonicParsing="false" onAction="#openImage">
             <graphic>

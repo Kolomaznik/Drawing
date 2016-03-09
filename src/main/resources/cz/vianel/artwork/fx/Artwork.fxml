@@ -8,7 +8,7 @@
 
 <BorderPane fx:id="borderPane" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vianel.artwork.fx.ArtworkController">
     <top>
-        <fx:include fx:id="toolBar" source="ToolBar.fxml" />
+        <fx:include fx:id="mainToolBar" source="MainToolBar.fxml" />
     </top>
     <center>
       <Group fx:id="imageGroup">
@@ -17,4 +17,7 @@
          </children>
       </Group>
     </center>
+    <bottom>
+        <fx:include fx:id="editToolBar" source="EditToolBar.fxml" visible="false"/>
+    </bottom>
 </BorderPane>
