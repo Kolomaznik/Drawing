@@ -4,6 +4,7 @@ import cz.vianel.artwork.Artwork;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,12 +36,13 @@ public class MainToolBarController implements ArtworkDependent {
     private Artwork artwork;
 
     @FXML ToolBar toolBar;
-
     @FXML Button editImage;
+    @FXML Label ratioLabel;
 
     @Override
     public void setArtwork(Artwork artwork) {
         LOG.trace("setArtwork(artwork: {})", artwork);
+
         this.artwork = artwork;
         this.artwork.editImageProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -50,7 +52,7 @@ public class MainToolBarController implements ArtworkDependent {
             }
         });
         this.editImage.disableProperty().bind(artwork.imageProperty().isNull());
-
+        this.ratioLabel.textProperty().bind(artwork.ratioProperty().asString());
     }
 
     public void openImage(ActionEvent actionEvent) {
