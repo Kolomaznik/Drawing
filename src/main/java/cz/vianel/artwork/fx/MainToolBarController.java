@@ -33,10 +33,14 @@ public class MainToolBarController implements ArtworkDependent {
     private static final Image editImageShow = new Image(MainToolBarController.class.getResourceAsStream("icon/appbar.edit.png"));
     private static final Image editImageHide = new Image(MainToolBarController.class.getResourceAsStream("icon/appbar.edit.box.png"));
 
+    private static final Image gridShow = new Image(MainToolBarController.class.getResourceAsStream("icon/appbar.page.corner.grid.png"));
+    private static final Image gridHide = new Image(MainToolBarController.class.getResourceAsStream("icon/appbar.page.corner.png"));
+
     private Artwork artwork;
 
     @FXML ToolBar toolBar;
-    @FXML Button editImage;
+    @FXML Button editImageSwitch;
+    @FXML Button gridSwitch;
     @FXML Label ratioLabel;
 
     @Override
@@ -46,12 +50,20 @@ public class MainToolBarController implements ArtworkDependent {
         this.artwork = artwork;
         this.artwork.editImageProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                ((ImageView)editImage.getGraphic()).setImage(editImageHide);
+                ((ImageView)editImageSwitch.getGraphic()).setImage(editImageHide);
             } else {
-                ((ImageView)editImage.getGraphic()).setImage(editImageShow);
+                ((ImageView)editImageSwitch.getGraphic()).setImage(editImageShow);
             }
         });
-        this.editImage.disableProperty().bind(artwork.imageProperty().isNull());
+        this.artwork.showGridProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                ((ImageView)gridSwitch.getGraphic()).setImage(gridShow);
+            } else {
+                ((ImageView)gridSwitch.getGraphic()).setImage(gridHide);
+            }
+        });
+        this.editImageSwitch.disableProperty().bind(artwork.imageProperty().isNull());
+        this.gridSwitch.disableProperty().bind(artwork.imageProperty().isNull());
         this.ratioLabel.textProperty().bind(artwork.ratioProperty().asString());
     }
 
@@ -68,9 +80,15 @@ public class MainToolBarController implements ArtworkDependent {
     }
 
     public void editImage(ActionEvent actionEvent) {
+        LOG.trace("editImage(ActionEvent: {})", actionEvent);
+
         artwork.setEditImage(!artwork.isEditImage());
     }
 
 
+    public void switchGrid(ActionEvent actionEvent) {
+        LOG.trace("switchGrid(ActionEvent: {})", actionEvent);
 
+        artwork.setShowGrid(!artwork.isShowGrid());
+    }
 }

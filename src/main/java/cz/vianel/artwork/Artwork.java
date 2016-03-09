@@ -43,6 +43,17 @@ public class Artwork {
         this.editImage.set(editImage);
     }
 
+    private BooleanProperty showGrid = new SimpleBooleanProperty(true);
+    public boolean isShowGrid() {
+        return showGrid.get();
+    }
+    public BooleanProperty showGridProperty() {
+        return showGrid;
+    }
+    public void setShowGrid(boolean showGrid) {
+        this.showGrid.set(showGrid);
+    }
+
     private ObjectProperty<Ratio> ratioProperty = new SimpleObjectProperty<>(NONE);
     public Ratio getRatio() {
         return ratioProperty.get();
