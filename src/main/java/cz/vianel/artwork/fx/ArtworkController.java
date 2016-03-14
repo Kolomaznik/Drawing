@@ -4,10 +4,14 @@ import cz.vianel.artwork.Artwork;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +27,7 @@ public class ArtworkController implements Initializable, ArtworkDependent {
     @FXML MainToolBarController mainToolBarController;
     @FXML EditToolBarController editToolBarController;
     @FXML BorderPane borderPane;
-    @FXML Group imageGroup;
+    @FXML StackPane imageGroup;
     @FXML ImageView imageView;
 
     @Override
@@ -37,6 +41,7 @@ public class ArtworkController implements Initializable, ArtworkDependent {
         this.artwork.showGridProperty().addListener((observable, oldValue, newValue) -> switchDisplayGrid(newValue));
         this.artwork.ratioProperty().addListener((observable, oldValue, newValue) -> switchDisplayGrid(artwork.isShowGrid()));
         this.borderPane.widthProperty().addListener((observable, oldValue, newValue) -> switchDisplayGrid(artwork.isShowGrid()));
+        this.borderPane.heightProperty().addListener((observable, oldValue, newValue) -> switchDisplayGrid(artwork.isShowGrid()));
     }
 
     @Override
@@ -48,7 +53,7 @@ public class ArtworkController implements Initializable, ArtworkDependent {
         );
     }
 
-    private Group gridCanvas;
+    private Canvas gridCanvas;
 
     public void switchDisplayGrid(boolean show) {
         LOG.trace("switchDisplayGrid(show: {})", show);
@@ -56,43 +61,38 @@ public class ArtworkController implements Initializable, ArtworkDependent {
         imageGroup.getChildren().remove(gridCanvas);
         if (!show || artwork.getImage() == null) return;
 
-        gridCanvas = new Group();
-
-        double imageWidth = imageView.getFitWidth();
-        double imageHeight = imageView.getFitHeight();
         Artwork.Ratio ratio = artwork.getRatio();
-        int size = Double.valueOf(Math.max(imageWidth / ratio.width, imageHeight / ratio.height)).intValue();
+        double square = ratio.squareSize(
+                borderPane.getWidth() - 1, // width
+                borderPane.getHeight()     // height
+                        - mainToolBarController.toolBar.getHeight()
+                        - editToolBarController.toolBar.getHeight() - 1);
+        double width = ratio.width * square;
+        double height = ratio.height * square;
 
-        for (int r = size; r < imageHeight; r += size) {
-            Line lineB = new Line(0, r-1, imageWidth, r-1);
-            lineB.setStroke(Color.WHITE.deriveColor(0, 1.2, 1, 0.6));
-            Line lineA = new Line(0, r+1, imageWidth, r+1);
-            lineA.setStroke(Color.WHITE.deriveColor(0, 1.2, 1, 0.6));
-            gridCanvas.getChildren().add(lineB);
-            gridCanvas.getChildren().add(lineA);
+
+        gridCanvas = new Canvas(width, height);
+        GraphicsContext gc = gridCanvas.getGraphicsContext2D();
+        // Bílé obrysy mřížky
+        gc.setStroke(Color.WHITE);
+        for (double r = square; r < height; r += square) {
+            gc.strokeLine(0, r-1, width, r-1);
+            gc.strokeLine(0, r+1, width, r+1);
         }
-
-        for (int c = size; c < imageWidth; c+= size) {
-            Line lineU = new Line(c-1, 0, c-1, imageHeight);
-            lineU.setStroke(Color.WHITE.deriveColor(0, 1.2, 1, 0.6));
-            Line lineD = new Line(c+1, 0, c+1, imageHeight);
-            lineD.setStroke(Color.WHITE.deriveColor(0, 1.2, 1, 0.6));
-            gridCanvas.getChildren().add(lineU);
-            gridCanvas.getChildren().add(lineD);
+        for (double c = square; c < width; c+= square) {
+            gc.strokeLine(c-1, 0, c-1, height);
+            gc.strokeLine(c+1, 0, c+1, height);
         }
-
-        for (int r = size; r < imageHeight; r += size) {
-            Line line = new Line(0, r, imageWidth, r);
-            gridCanvas.getChildren().add(line);
+        // černá mřížka
+        gc.setStroke(Color.BLACK);
+        for (double r = square; r < height; r += square) {
+            gc.strokeLine(0, r, width, r);
         }
-
-        for (int c = size; c < imageWidth; c+= size) {
-            Line line = new Line(c, 0, c, imageHeight);
-            gridCanvas.getChildren().add(line);
+        for (double c = square; c < width; c+= square) {
+            gc.strokeLine(c, 0, c, height);
         }
 
         imageGroup.getChildren().add(gridCanvas);
-
     }
 
 

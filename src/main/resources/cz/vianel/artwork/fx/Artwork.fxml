@@ -11,11 +11,11 @@
         <fx:include fx:id="mainToolBar" source="MainToolBar.fxml" />
     </top>
     <center>
-      <Group fx:id="imageGroup">
+      <StackPane fx:id="imageGroup">
          <children>
              <ImageView fx:id="imageView" preserveRatio="true" smooth="true" />
          </children>
-      </Group>
+      </StackPane>
     </center>
     <bottom>
         <fx:include fx:id="editToolBar" source="EditToolBar.fxml" visible="false"/>

@@ -3,6 +3,7 @@ package cz.vianel.artwork;
 import javafx.beans.property.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,6 +111,10 @@ public class Artwork {
             int gds = BigInteger.valueOf(imgWidth).gcd(BigInteger.valueOf(imgHeigth)).intValue();
             width = imgWidth / gds;
             height = imgHeigth / gds;
+        }
+
+        public double squareSize(double fitWidth, double fitHeight) {
+            return Math.min(fitWidth / width, fitHeight / height);
         }
 
         @Override
