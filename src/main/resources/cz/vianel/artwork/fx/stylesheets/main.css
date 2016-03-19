@@ -24,6 +24,16 @@
     -fx-pref-width: 19px;
 }
 
+.choice-box {
+    -fx-background-color: black;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: black ;
+    -fx-border-color: white;
+    -fx-background-size: 1px;
+}
+
 .separator .line {
     -fx-border-color: transparent transparent transparent transparent;
 }

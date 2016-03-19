@@ -25,8 +25,9 @@
             </graphic>
         </Button>
         <Label styleClass="title-label" text="Ratio:" wrapText="true" />
-        <Label fx:id="ratioLabel" styleClass="info-label" prefWidth="100.0" wrapText="false"  />
+        <Label fx:id="ratioLabel" prefWidth="100.0" styleClass="info-label" wrapText="false" />
         <Label styleClass="title-label" text="Grid scale:" wrapText="true" />
+      <ChoiceBox fx:id="choiceRatio" prefWidth="50.0" />
         <Button fx:id="gridSwitch" mnemonicParsing="false" onAction="#switchGrid">
             <graphic>
                 <ImageView pickOnBounds="true" preserveRatio="true">

@@ -3,7 +3,9 @@ package cz.vianel.artwork.fx;
 import cz.vianel.artwork.Artwork;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
@@ -13,11 +15,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.ResourceBundle;
 
 /**
  * Created by Honza on 06.03.2016.
  */
-public class MainToolBarController implements ArtworkDependent {
+public class MainToolBarController implements ArtworkDependent, Initializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(MainToolBarController.class);
 
@@ -29,12 +34,14 @@ public class MainToolBarController implements ArtworkDependent {
         IMAGE_FILE_CHOOSER.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
     }
 
-
     private static final Image editImageShow = new Image(MainToolBarController.class.getResourceAsStream("icon/appbar.edit.png"));
     private static final Image editImageHide = new Image(MainToolBarController.class.getResourceAsStream("icon/appbar.edit.box.png"));
 
     private static final Image gridShow = new Image(MainToolBarController.class.getResourceAsStream("icon/appbar.page.corner.grid.png"));
     private static final Image gridHide = new Image(MainToolBarController.class.getResourceAsStream("icon/appbar.page.corner.png"));
+
+    private static final String[] choiceRatioLabels = {"1/3", "1/2", "1", "2", "3"};
+    private static final double[] choiceRatioValues = {1d/3d, 1d/2d, 1.0, 2.0, 3.0};
 
     private Artwork artwork;
 
@@ -42,6 +49,13 @@ public class MainToolBarController implements ArtworkDependent {
     @FXML Button editImageSwitch;
     @FXML Button gridSwitch;
     @FXML Label ratioLabel;
+    @FXML ChoiceBox choiceRatio;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        choiceRatio.getItems().addAll(choiceRatioLabels);
+        choiceRatio.setValue(choiceRatioLabels[2]);
+    }
 
     @Override
     public void setArtwork(Artwork artwork) {
@@ -62,8 +76,13 @@ public class MainToolBarController implements ArtworkDependent {
                 ((ImageView)gridSwitch.getGraphic()).setImage(gridHide);
             }
         });
+        this.choiceRatio.valueProperty().addListener((observable, oldValue, newValue) -> {
+            int index = Arrays.asList(choiceRatioLabels).indexOf(newValue);
+            artwork.setGridScale(choiceRatioValues[index]);
+        });
         this.editImageSwitch.disableProperty().bind(artwork.imageProperty().isNull());
         this.gridSwitch.disableProperty().bind(artwork.imageProperty().isNull());
+        this.choiceRatio.disableProperty().bind(artwork.imageProperty().isNull());
         this.ratioLabel.textProperty().bind(artwork.ratioProperty().asString());
     }
 
@@ -91,4 +110,5 @@ public class MainToolBarController implements ArtworkDependent {
 
         artwork.setShowGrid(!artwork.isShowGrid());
     }
+
 }

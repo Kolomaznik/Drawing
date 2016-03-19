@@ -12,6 +12,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -63,6 +65,17 @@ public class Artwork {
         return ratioProperty;
     }
 
+    private DoubleProperty gridScale = new SimpleDoubleProperty(1);
+    public double getGridScale() {
+        return gridScale.get();
+    }
+    public DoubleProperty gridScaleProperty() {
+        return gridScale;
+    }
+    public void setGridScale(double gridScale) {
+        this.gridScale.set(gridScale);
+    }
+
     public void openImage(File file) {
         LOG.trace("openImage(File {})", file.getAbsoluteFile());
         try {
@@ -109,8 +122,32 @@ public class Artwork {
             int imgWidth = bufferedImage.getWidth();
             int imgHeigth = bufferedImage.getHeight();
             int gds = BigInteger.valueOf(imgWidth).gcd(BigInteger.valueOf(imgHeigth)).intValue();
-            width = imgWidth / gds;
-            height = imgHeigth / gds;
+            Ratio best = new Ratio(imgWidth / gds, imgHeigth / gds);
+
+            // Pokud poměr vypočítány podle GDS je dobrý, použiji jej.
+            if (best.width < 10 && best.height < 10) {
+                this.width = best.width;
+                this.height = best.height;
+                return;
+            }
+
+            // Jinak hledám nejlepší poměr menší než 10
+            double distance = Double.MAX_VALUE;
+            for(int r = Math.min(imgWidth, imgHeigth); r > 0; r--){
+                int w = imgWidth / r;
+                int h = imgHeigth / r;
+                double d = (((double)imgWidth / (double)r) - w) + (((double)imgHeigth / (double)r) - h);
+                if (distance > d && w < 10 && h < 10) {
+                    best = new Ratio(w,h);
+                }
+            }
+
+            this.width = best.width;
+            this.height = best.height;
+        }
+
+        public Ratio applyScale(double scale) {
+            return new Ratio(Double.valueOf(width * scale).intValue(), Double.valueOf(height * scale).intValue());
         }
 
         public double squareSize(double fitWidth, double fitHeight) {

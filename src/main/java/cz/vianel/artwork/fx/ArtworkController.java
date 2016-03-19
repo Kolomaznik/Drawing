@@ -42,6 +42,7 @@ public class ArtworkController implements Initializable, ArtworkDependent {
         this.artwork.ratioProperty().addListener((observable, oldValue, newValue) -> switchDisplayGrid(artwork.isShowGrid()));
         this.borderPane.widthProperty().addListener((observable, oldValue, newValue) -> switchDisplayGrid(artwork.isShowGrid()));
         this.borderPane.heightProperty().addListener((observable, oldValue, newValue) -> switchDisplayGrid(artwork.isShowGrid()));
+        this.artwork.gridScaleProperty().addListener((observable, oldValue, newValue) -> switchDisplayGrid(artwork.isShowGrid()));
     }
 
     @Override
@@ -61,7 +62,8 @@ public class ArtworkController implements Initializable, ArtworkDependent {
         imageGroup.getChildren().remove(gridCanvas);
         if (!show || artwork.getImage() == null) return;
 
-        Artwork.Ratio ratio = artwork.getRatio();
+        LOG.info("grid scale: {}", artwork.getGridScale());
+        Artwork.Ratio ratio = artwork.getRatio().applyScale(artwork.getGridScale());
         double square = ratio.squareSize(
                 borderPane.getWidth() - 1, // width
                 borderPane.getHeight()     // height
