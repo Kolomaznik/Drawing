@@ -1,0 +1,40 @@
+.root {
+    -fx-background-color: black;
+}
+
+.button {
+    -fx-background-color: transparent;
+}
+
+.label {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.title-label {
+    -fx-font-weight: bold;
+}
+
+.tool-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.separator {
+    -fx-pref-width: 19px;
+}
+
+.choice-box {
+    -fx-background-color: black;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: black ;
+    -fx-border-color: white;
+    -fx-background-size: 1px;
+}
+
+.separator .line {
+    -fx-border-color: transparent transparent transparent transparent;
+}
+

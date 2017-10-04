@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+<BorderPane fx:id="borderPane" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vianel.artwork.fx.ArtworkController">
+    <top>
+        <fx:include fx:id="mainToolBar" source="MainToolBar.fxml" />
+    </top>
+    <center>
+      <StackPane fx:id="imageGroup">
+         <children>
+             <ImageView fx:id="imageView" preserveRatio="true" smooth="true" />
+         </children>
+      </StackPane>
+    </center>
+    <bottom>
+        <fx:include fx:id="editToolBar" source="EditToolBar.fxml" visible="false"/>
+    </bottom>
+</BorderPane>
