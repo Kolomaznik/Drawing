@@ -25,6 +25,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
         LOG.debug("Create data model.");
         Artwork artwork = new Artwork();
 
@@ -38,7 +39,10 @@ public class Main extends Application {
 
         LOG.debug("Polishing user interface.");
         primaryStage.setTitle("Artwork");
-        primaryStage.setScene(new Scene(root, 800, 600));
+        primaryStage.setScene(new Scene(root, 800, 620));
+
+        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(800);
 
         LOG.info("Show user interface");
         primaryStage.show();

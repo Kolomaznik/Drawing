@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -27,7 +28,7 @@ public class ArtworkController implements Initializable, ArtworkDependent {
     @FXML MainToolBarController mainToolBarController;
     @FXML EditToolBarController editToolBarController;
     @FXML BorderPane borderPane;
-    @FXML StackPane imageGroup;
+    @FXML Pane imageGroup;
     @FXML ImageView imageView;
 
     @Override
@@ -36,6 +37,8 @@ public class ArtworkController implements Initializable, ArtworkDependent {
         this.artwork = artwork;
         this.mainToolBarController.setArtwork(artwork);
         this.editToolBarController.setArtwork(artwork);
+        this.editToolBarController.setImageGroup(imageGroup);
+        this.editToolBarController.setImageView(imageView);
         this.imageView.imageProperty().bind(artwork.imageProperty());
         this.artwork.imageProperty().addListener((observable, oldValue, newValue) -> switchDisplayGrid(newValue != null));
         this.artwork.showGridProperty().addListener((observable, oldValue, newValue) -> switchDisplayGrid(newValue));
@@ -75,6 +78,7 @@ public class ArtworkController implements Initializable, ArtworkDependent {
 
         gridCanvas = new Canvas(width, height);
         GraphicsContext gc = gridCanvas.getGraphicsContext2D();
+
         // Bílé obrysy mřížky
         gc.setStroke(Color.WHITE);
         for (double r = square; r < height; r += square) {
@@ -85,6 +89,7 @@ public class ArtworkController implements Initializable, ArtworkDependent {
             gc.strokeLine(c-1, 0, c-1, height);
             gc.strokeLine(c+1, 0, c+1, height);
         }
+
         // černá mřížka
         gc.setStroke(Color.BLACK);
         for (double r = square; r < height; r += square) {
@@ -94,8 +99,7 @@ public class ArtworkController implements Initializable, ArtworkDependent {
             gc.strokeLine(c, 0, c, height);
         }
 
-        imageGroup.getChildren().add(gridCanvas);
+        imageGroup.getChildren().add(1, gridCanvas);
+
     }
-
-
 }
