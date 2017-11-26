@@ -54,19 +54,14 @@ public class EditToolBarController implements ArtworkDependent {
                 this.imageView.getFitWidth()/3*2,
                 this.imageView.getFitHeight()/3*2,
                 Color.rgb(255,255,255,0.75),
-                5
+                15
         );
 
         Image img = this.artwork.getImage();
 
-        /*rec.setStyle("-fx-fill: #ffff0050");
-        rec.setStyle("-fx-stroke: white");
-        rec.setStyle("-fx-stroke-width: 3px");
-        rec.setStyle("-fx-stroke-type: outside");*/
-
-        rec.setFill(Color.rgb(0,0,0,0.5));
+        rec.setFill(Color.rgb(0,0,0,0.4));
         rec.setStroke(Color.WHITE);
-        rec.setStrokeWidth(3);
+        rec.setStrokeWidth(1);
         rec.setStrokeType(StrokeType.INSIDE);
 
         return rec;
