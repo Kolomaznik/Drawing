@@ -4,19 +4,19 @@ import cz.vianel.artwork.Artwork;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -26,12 +26,14 @@ public class MainToolBarController implements ArtworkDependent, Initializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(MainToolBarController.class);
 
+    public static final FileChooser IMAGE_FILE_SAVER = new FileChooser();
     public static final FileChooser IMAGE_FILE_CHOOSER = new FileChooser();
     static {
         //Set extension filter
         FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
         FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
         IMAGE_FILE_CHOOSER.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+        IMAGE_FILE_SAVER.getExtensionFilters().add(extFilterPNG);
     }
 
     private static final Image editImageShow = new Image(MainToolBarController.class.getResourceAsStream("icon/appbar.edit.png"));
@@ -50,6 +52,7 @@ public class MainToolBarController implements ArtworkDependent, Initializable {
     @FXML Button gridSwitch;
     @FXML Label ratioLabel;
     @FXML ChoiceBox choiceRatio;
+    @FXML Button saveImageButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -111,4 +114,29 @@ public class MainToolBarController implements ArtworkDependent, Initializable {
         artwork.setShowGrid(!artwork.isShowGrid());
     }
 
+    public void saveImage(ActionEvent actionEvent) {
+        LOG.trace("saveImage(ActionEvent: {})", actionEvent);
+
+        File file = IMAGE_FILE_SAVER.showSaveDialog(null);
+        if (file != null) {
+            LOG.debug("Image save from {}", file.getAbsoluteFile());
+
+            if (IfFileExistsWarning(file)){
+                artwork.saveTo(file);
+            }
+        }
+    }
+
+    private boolean IfFileExistsWarning(File file) {
+        if (file.exists()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("File already exists!");
+            alert.setContentText("Do you really want to rewrite this ("+file.getAbsolutePath()+") file?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            return result.get() == ButtonType.OK;
+        }
+        return true;
+    }
 }

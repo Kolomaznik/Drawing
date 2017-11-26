@@ -4,6 +4,7 @@ import javafx.beans.property.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import org.omg.CORBA.Bounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -174,4 +175,17 @@ public class Artwork {
         }
     }
 
+    public void saveTo(File file) {
+        try {
+            ImageIO.write(this.bufferedImage, "png", file);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void cropImage(int x, int y, int width, int height) {
+        this.bufferedImage = this.bufferedImage.getSubimage(x, y, width, height);
+        imageProperty.set(SwingFXUtils.toFXImage(bufferedImage, null));
+        ratioProperty.set(new Ratio(bufferedImage));
+    }
 }

@@ -12,7 +12,7 @@
     <center>
       <Pane fx:id="imageGroup">
          <children>
-            <ImageView fx:id="imageView" preserveRatio="true" smooth="true" />
+            <ImageView fx:id="imageView" preserveRatio="true" smooth="true"/>
          </children>
       </Pane>
     </center>

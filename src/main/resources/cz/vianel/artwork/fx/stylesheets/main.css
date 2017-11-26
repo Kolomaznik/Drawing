@@ -18,6 +18,7 @@
 .tool-bar {
     -fx-background-color: transparent;
     -fx-padding: 0;
+    -fx-width: 100%;
 }
 
 .separator {

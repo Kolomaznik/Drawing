@@ -3,16 +3,12 @@ package cz.vianel.artwork.fx;
 import cz.vianel.artwork.Artwork;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +18,8 @@ import java.util.ResourceBundle;
 public class ArtworkController implements Initializable, ArtworkDependent {
 
     private static final Logger LOG = LoggerFactory.getLogger(ArtworkController.class);
-
     private Artwork artwork;
+    private Canvas gridCanvas;
 
     @FXML MainToolBarController mainToolBarController;
     @FXML EditToolBarController editToolBarController;
@@ -56,8 +52,6 @@ public class ArtworkController implements Initializable, ArtworkDependent {
                 .subtract(editToolBarController.toolBar.heightProperty())
         );
     }
-
-    private Canvas gridCanvas;
 
     public void switchDisplayGrid(boolean show) {
         LOG.trace("switchDisplayGrid(show: {})", show);

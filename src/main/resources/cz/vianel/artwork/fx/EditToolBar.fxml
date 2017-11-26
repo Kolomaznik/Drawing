@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 
-<ToolBar xmlns:fx="http://javafx.com/fxml/1" fx:id="toolBar" stylesheets="@stylesheets/main.css"
-         xmlns="http://javafx.com/javafx/8" fx:controller="cz.vianel.artwork.fx.EditToolBarController">
-    <items>
-        <Button styleClass="editButton" mnemonicParsing="false" text="Crop" onAction="#cropImage"/>
-        <Button styleClass="editButton" mnemonicParsing="false" text="Rotate" onAction="#rotateImage"/>
-        <Button styleClass="editButton" mnemonicParsing="false" text="Contrast/Brightness" onAction="#contrastBrightnessEdit"/>
-    </items>
-</ToolBar>
+<HBox fx:id="toolBar" prefHeight="27.0" prefWidth="800.0" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vianel.artwork.fx.EditToolBarController">
+<children>
+    <Button mnemonicParsing="false" onAction="#cropImage" styleClass="editButton" text="Crop" />
+    <Button mnemonicParsing="false" onAction="#rotateImage" styleClass="editButton" text="Rotate" />
+    <Button mnemonicParsing="false" onAction="#contrastBrightnessEdit" styleClass="editButton" text="Contrast/Brightness" />
+      <Region HBox.hgrow="ALWAYS" />
+      <HBox fx:id="actionControlls"/>
+</children>
+</HBox>

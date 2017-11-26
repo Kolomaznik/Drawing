@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
-<ToolBar fx:id="toolBar" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/8"
-         xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vianel.artwork.fx.MainToolBarController">
+<ToolBar fx:id="toolBar" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vianel.artwork.fx.MainToolBarController">
     <items>
         <Button fx:id="openImageButton" mnemonicParsing="false" onAction="#openImage">
             <graphic>
                 <ImageView pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@icon/appbar.image.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="saveImageButton" mnemonicParsing="false" onAction="#saveImage">
+            <graphic>
+                <ImageView pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@icon/appbar.save.png" />
                     </image>
                 </ImageView>
             </graphic>

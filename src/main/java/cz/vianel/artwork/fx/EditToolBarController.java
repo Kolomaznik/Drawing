@@ -1,13 +1,17 @@
 package cz.vianel.artwork.fx;
 
+import cz.vianel.artwork.ActionLock;
 import cz.vianel.artwork.Artwork;
+import cz.vianel.artwork.MainArtwork;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ToolBar;
+import javafx.geometry.Point2D;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
 import org.slf4j.Logger;
@@ -24,8 +28,24 @@ public class EditToolBarController implements ArtworkDependent {
     private Artwork artwork;
     private Pane imageGroup;
     private ImageView imageView;
+    private Rectangle CropRectangle;
 
-    @FXML ToolBar toolBar;
+    @FXML HBox toolBar;
+    @FXML HBox actionControlls;
+
+    private static class Dimensions {
+        public double x;
+        public double y;
+        public double width;
+        public double height;
+
+        public Dimensions(double x, double y, double width, double height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+    }
 
     @Override
     public void setArtwork(Artwork artwork) {
@@ -43,16 +63,63 @@ public class EditToolBarController implements ArtworkDependent {
     }
 
     public void cropImage(ActionEvent actionEvent) {
-        LOG.debug("Image crop action");
-        this.imageGroup.getChildren().add(createCropRectangle());
+        if (!ActionLock.isLocked()) {
+            ActionLock.lock();
+
+            LOG.debug("Image crop action");
+
+            CropRectangle = createCropRectangle();
+
+            Button okBtn = new Button("OK");
+            okBtn.getStyleClass().add("editButton");
+            okBtn.setOnAction(new EventHandler<ActionEvent>() {
+                @Override public void handle(ActionEvent e) {
+                    ActionCropImage();
+                }
+            });
+
+            Button cancelBtn = new Button("Cancel");
+            cancelBtn.getStyleClass().add("editButton");
+            cancelBtn.setOnAction(new EventHandler<ActionEvent>() {
+                @Override public void handle(ActionEvent e) {
+                    CancelCropAction();
+                }
+            });
+
+            actionControlls.getChildren().addAll(
+                    okBtn,
+                    cancelBtn
+            );
+
+            this.imageGroup.getChildren().add(CropRectangle);
+        }
+    }
+
+    public void rotateImage(ActionEvent actionEvent) {
+        if (!ActionLock.isLocked()) {
+            ActionLock.lock();
+            LOG.debug("Image rotate action");
+        }
+    }
+
+    public void contrastBrightnessEdit(ActionEvent actionEvent) {
+        if (!ActionLock.isLocked()) {
+            ActionLock.lock();
+            LOG.debug("Image contrastBrightnessEdit action");
+        }
     }
 
     private Rectangle createCropRectangle() {
+        Pane wrapperPane = new Pane();
+
+        Point2D actualImagesize = ResisableRectangle.getActualImageSize(imageView);
+
         Rectangle rec = ResisableRectangle.create(
-                this.imageView.getFitWidth()/3,
-                this.imageView.getFitHeight()/3,
-                this.imageView.getFitWidth()/3*2,
-                this.imageView.getFitHeight()/3*2,
+                actualImagesize.getX()/3,
+                actualImagesize.getY()/3,
+                actualImagesize.getX()/3,
+                actualImagesize.getY()/3,
+                imageView,
                 Color.rgb(255,255,255,0.75),
                 15
         );
@@ -67,11 +134,37 @@ public class EditToolBarController implements ArtworkDependent {
         return rec;
     }
 
-    public void rotateImage(ActionEvent actionEvent) {
-        LOG.debug("Image rotate action");
+    private void ActionCropImage() {
+        Dimensions d = getCropDimensions(CropRectangle, imageView, artwork);
+
+        this.artwork.cropImage((int)d.x, (int)d.y, (int)d.width, (int)d.height);
+        MainArtwork.setArtwork(this.artwork);
+
+        removeCropControlls();
+        ActionLock.unlock();
     }
 
-    public void contrastBrightnessEdit(ActionEvent actionEvent) {
-        LOG.debug("Image contrastBrightnessEdit action");
+    private static Dimensions getCropDimensions(Rectangle rec, ImageView imageView, Artwork artwork) {
+
+        Point2D displaySize = ResisableRectangle.getActualImageSize(imageView);
+
+        double widthRatio = artwork.getImage().getWidth() / displaySize.getX();
+        double heightRation = artwork.getImage().getHeight() / displaySize.getY();
+
+        return new Dimensions(
+                rec.getX()*widthRatio,
+                rec.getY()*widthRatio,
+                rec.getWidth()*widthRatio,
+                rec.getHeight()*heightRation);
+    }
+
+    private void CancelCropAction() {
+        removeCropControlls();
+        ActionLock.unlock();
+    }
+
+    private void removeCropControlls() {
+        actionControlls.getChildren().clear();
+        imageGroup.getChildren().remove(2, imageGroup.getChildren().size());
     }
 }

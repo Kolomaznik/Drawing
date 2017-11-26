@@ -36,13 +36,16 @@ public class Main extends Application {
         LOG.debug("Connect data model to user interface.");
         ArtworkController artworkController = loader.<ArtworkController> getController();
         artworkController.setArtwork(artwork);
+        MainArtwork.setMainController(artworkController);
 
         LOG.debug("Polishing user interface.");
         primaryStage.setTitle("Artwork");
-        primaryStage.setScene(new Scene(root, 800, 620));
+        primaryStage.setScene(new Scene(root, 800, 400));
 
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinHeight(400);
         primaryStage.setMinWidth(800);
+
+        primaryStage.setResizable(false);
 
         LOG.info("Show user interface");
         primaryStage.show();
